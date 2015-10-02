@@ -1,0 +1,1 @@
+* * * * * . ~/env/bin/activate;cd /home/deploy/uncles/scripts/script;python test.py
