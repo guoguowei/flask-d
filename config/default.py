@@ -45,7 +45,7 @@ GLOBAL_CONFIG = {
     'flask' : {
         'all_services_0' : {
             'host' : '0.0.0.0',
-            'port' : 9400,
+            'port' : 19400,
             #只有开发环境和测试环境才开启debug模式  线上环境一般情况不要开启该选项 不需要的话请去掉该项
             #开启debug模式之后 代码修改之后会自动加载  不需要重启应用程序
             'debug_mode' : False,
@@ -55,7 +55,7 @@ GLOBAL_CONFIG = {
         },
         'all_services_1' : {
             'host' : '0.0.0.0',
-            'port' : 9399,
+            'port' : 19399,
             #只有开发环境和测试环境才开启debug模式  线上环境一般情况不要开启该选项 不需要的话请去掉该项
             #开启debug模式之后 代码修改之后会自动加载  不需要重启应用程序
             'debug_mode' : False,
@@ -65,7 +65,7 @@ GLOBAL_CONFIG = {
         },
         'api_web_0' : {
             'host' : '0.0.0.0',
-            'port' : 9401,
+            'port' : 19401,
             #只有开发环境和测试环境才开启debug模式  线上环境一般情况不要开启该选项 不需要的话请去掉该项
             #开启debug模式之后 代码修改之后会自动加载  不需要重启应用程序
             'debug_mode' : False,
@@ -83,8 +83,7 @@ GLOBAL_CONFIG = {
         },
     }
 }
-
-
+TEST_VAR = 'guozhiwei_1'
 
 
 

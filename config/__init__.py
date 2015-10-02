@@ -10,4 +10,6 @@ try:
     hostname = hostname.split('.')[0]
     exec('from %s import *' % hostname.replace('-', '_'))
 except:
-    from default import *
+    from  develop import *
+    import traceback
+    print traceback.format_exc()
