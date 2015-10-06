@@ -1,5 +1,16 @@
 #coding=utf8
 __author__ = 'guozhiwei'
+'''
+    get 和 post 方法的简单封装
+
+    #url
+    #params dict  {'name':'guozhiwei',  'blog':'hiroguo.me'}
+    #timeout 超时时间
+    #decode_json_resp  True/False 是否需要对结果json解码
+    simple_get(url, params, timeout, decode_json_resp)
+    simple_post(url, params, timeout, decode_json_resp)
+
+'''
 import json_helper
 
 import urllib

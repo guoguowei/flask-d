@@ -1,4 +1,7 @@
 #coding=utf8
+'''
+    get_real_ip(request)   #request是flask中的对象
+'''
 __author__ = 'guozhiwei'
 
 def get_real_ip(request):

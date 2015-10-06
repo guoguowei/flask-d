@@ -12,7 +12,7 @@ def get_datetime_str():
 
 def get_date_ymd_str():
     '''
-    :return:  2015-10-20 14:21:01
+    :return:  2015-10-20
     '''
     return time.strftime("%Y-%m-%d")
 

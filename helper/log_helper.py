@@ -1,11 +1,20 @@
 #coding=utf8
+'''
+
+    日志文件自动按照每天的日期切分
+
+    filename log文件名 包含路径
+    **kwargs  backupCount  最多保存多少天
+              logLevel  可选指  DEBUG INFO ERROR WARNGING
+    addTimedRotatingFileHandler(filename, **kwargs)
+'''
 __author__ = 'guozhiwei'
 import os
 import logging
 import logging.handlers
 
 
-def addTimedRotatingFileHandler(filename, mod_name='', **kwargs):
+def addTimedRotatingFileHandler(filename, **kwargs):
     '''
         给logger添加一个时间切换文件的handler。
         默认时间是0点开始备份。
@@ -17,7 +26,7 @@ def addTimedRotatingFileHandler(filename, mod_name='', **kwargs):
     conf = {
         'when': 'midnight',
         'backupCount': kwargs.get('backupCount',30),
-        'format': '[%(asctime)s] ['+mod_name+'] [%(filename)s-L%(lineno)d] [%(levelname)s]: %(message)s',
+        'format': '[%(asctime)s][%(filename)s-L%(lineno)d][%(levelname)s]: %(message)s',
         'logger': logging.getLogger(),
     }
     conf.update(kwargs)
