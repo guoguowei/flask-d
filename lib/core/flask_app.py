@@ -9,10 +9,7 @@ import json_helper
 import log_helper
 from const_define import ErrorCode
 import ip_helper
-import http_helper
 import const_define
-import md5_helper
-import config
 
 FLASK_GLOBAL_APP = None
 

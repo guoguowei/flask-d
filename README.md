@@ -1,5 +1,5 @@
 # flask-d
-    [github](https://github.com/guoguowei/flask-d )
+    [github](https://github.com/guoguowei/flask-d)
 	flask框架的二次封装,更加方便的添加接口,能启动多个服务,并提供常用的组件
 
 ##目录结构
@@ -45,6 +45,86 @@
 	脚本文件夹  跟flask没有关联,放在这里是为了能调用到config和helper和libs的代码
 ###test
     单元测试目录
+    
+    
+##启动
+	cd bin/
+	python main.py api_web_0 start
+	
+	#或者
+	python main.py all_services_0 start
+	
+	api_web_0来自配置文件default.py中GLOBAL_CONFIG中的flask变量
+	    'flask' : {
+        'all_services_0' : {
+            'host' : '0.0.0.0',
+            'port' : 19400,
+            #只有开发环境和测试环境才开启debug模式  线上环境一般情况不要开启该选项 不需要的话请去掉该项
+            #开启debug模式之后 代码修改之后会自动加载  不需要重启应用程序
+            'debug_mode' : False,
+            'reg_module_name' : 'all_services',   #这里对应reg_route文件中的相关名字
+            'logLevel' : 'DEBUG',
+            'logPath' : './all_services_0.log'
+        },
+        'api_web_0' : {
+            'host' : '0.0.0.0',
+            'port' : 19401,  
+            #只有开发环境和测试环境才开启debug模式  线上环境一般情况不要开启该选项 不需要的话请去掉该项
+            #开启debug模式之后 代码修改之后会自动加载  不需要重启应用程序
+            'debug_mode' : False,
+            'reg_module_name' : 'web_api',   #这里对应reg_route文件中的相关名字
+            'logLevel' : 'DEBUG',
+            'logPath' : './api_web_0.log'
+
+        },
+    },
+    
+##定义url路由
+--interface
+	--services
+	--web_api
+	
+	#路由的代码
+	app.add_url_rule(rule='/ping',  view_func=e_user_user.ping, methods=['GET','POST'])
+	
+##核心文件介绍
+
+	--lib/core/flask_app.py   #对flask进行的简单的封装
+
+	
+	class My_Flask(Flask):
+	
+		#这里继承Flask,主要是想在一个总的入口的地方打印出每次请求的耗时,客户端的真实ip地址,请求的GET或POST参数
+		
+		
+		def dispatch_request(self):
+			''' 这里重写了Falsk中的该方法 '''
+			#省略
+			pass
+
+	def get_flask_app():
+    	global FLASK_GLOBAL_APP
+    	if not FLASK_GLOBAL_APP:
+        	FLASK_GLOBAL_APP = My_Flask(__name__)
+		#注册每次请求之前的hook
+    	FLASK_GLOBAL_APP.before_request(my_before_request)
+    	#定义异常处理handler
+    	FLASK_GLOBAL_APP.register_error_handler(BaseException, global_error_handler)
+    	return FLASK_GLOBAL_APP			
+    	
+    def global_error_handler( exception ):
+        #全局的错误处理handler
+    	from flask import request
+    	errinfo = traceback.format_exc()
+    	errinfo = 'path:%s args:%s %s'%(request.full_path,request.values,errinfo)
+    	log_helper.log_error( errinfo , True)
+    	resp = {
+        'code' : ErrorCode.SYS_ERR,
+    	}
+    	return json_helper.write(resp)
+	
+
+	
     
    
                    
