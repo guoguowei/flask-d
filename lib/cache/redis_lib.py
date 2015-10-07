@@ -1,10 +1,40 @@
 #coding=utf8
 __author__ = 'guozhiwei'
 '''
+    依赖与配置中的default.py
+    'cache' : {
+            'cluster_redis' : {
+                'startup_nodes' : [      #集群的节点配置
+                    {'host':'127.0.0.1','port':7000},
+                    {'host':'127.0.0.1', 'port':7001},
+                                ],
+                'max_connections' : 50,
+                'socket_timeout' : 5,   #seconds
+                'socket_connect_timeout' : 5, #seconds
+                'retry_on_timeout' : 5, #seconds
+            },
+            'common_redis_1' : {
+                'host' : '127.0.0.1',
+                'port' : '9000',
+                'max_connections' : 50,
+            }
+    },
+
+
+    #redis集群使用RedisForCluster类库
+    #集群使用配置文件中的cluster_redis配置
     from cache.redis_lib import RedisForCluster
     conn = RedisForCluster.get_cluster_redis()
     print conn.get("guozhiwei")
     print conn.get("guozhiwei2")
+
+
+    #普通redis请使用RedisForCommon
+    #普通redis使用配置的common_redis_1
+    conn = RedisForCommon.get_instance_for_common_1()
+    print conn.set('guozhiwei','abcd')
+    print conn.get('guozhiwei')
+
 
 '''
 from rediscluster import StrictRedisCluster

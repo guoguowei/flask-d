@@ -170,6 +170,96 @@
 	datetime_to_str(the_datetime) #datetime类型转换成标准时间字符串 2015-10-11 21:11:03
 	datetime_to_timestamp(the_datetime,is_float=False) #datetime类型转换成时间戳 return int/float
 	
+##类库介绍
+### lib/cache/redis_lib.py
+	用法:
+	
+	 依赖与配置中的default.py
+    'cache' : {
+            'cluster_redis' : {
+                'startup_nodes' : [      #集群的节点配置
+                    {'host':'127.0.0.1','port':7000},
+                    {'host':'127.0.0.1', 'port':7001},
+                                ],
+                'max_connections' : 50,
+                'socket_timeout' : 5,   #seconds
+                'socket_connect_timeout' : 5, #seconds
+                'retry_on_timeout' : 5, #seconds
+            },
+            'common_redis_1' : {
+                'host' : '127.0.0.1',
+                'port' : '9000',
+                'max_connections' : 50,
+            }
+    },
+
+
+    #redis集群使用RedisForCluster类库
+    #集群使用配置文件中的cluster_redis配置
+    from cache.redis_lib import RedisForCluster
+    conn = RedisForCluster.get_cluster_redis()
+    print conn.get("guozhiwei")
+    print conn.get("guozhiwei2")
+
+
+    #普通redis请使用RedisForCommon
+    #普通redis使用配置的common_redis_1
+    conn = RedisForCommon.get_instance_for_common_1()
+    print conn.set('guozhiwei','abcd')
+    print conn.get('guozhiwei')
+###lib/dbs/mysql.py
+    使用DBUtils为MySQLDB客户端的连接池二次封装 (线程安全的)
+
+    依赖config default.py当中的配置文件
+        'db':{
+            'user' : {
+                        'db_type' : 'mysql',
+                        'maxconnections' : 30,  #允许的最大连接数,
+                        'user' : 'test_user',
+                        'passwd' : 's5IQABSd8G4=',
+                        'host' : '127.0.0.1',
+                        'port' : 3306,
+                        'charset' : 'utf8',   #不指定的话,默认utf8
+                        'database_name' : 'test_db_nmae' #数据库的名字
+                    },
+            'goods' : {
+                        'db_type' : 'mysql',
+                        'maxconnections' : 30,  #允许的最大连接数,
+                        'user' : 'test_user_2',
+                        'passwd' : 's5IQABSd8G4=',
+                        'host' : '127.0.0.1',
+                        'port' : 3306,
+                        'charset' : 'utf8',   #不指定的话,默认utf8
+                        'database_name' : 'test_db_name2', #数据库的名字
+                    },
+        },
+
+    用法:
+        from dbs.mysql import Mysql
+        db_pool = Mysql.get_instance('goods')    #这里的goods字符串来自于上面的配置前面可key
+        #从连接池中获取一个可用的连接
+        db_connection = db_pool.get_connection()
+
+        #select语句
+        sql = "select * from test_table where id = %s"
+        args = [222]
+        res = db_pool.query(db_connection, sql, args)  #还有query_one方法
+
+        #insert语句
+        sql = "insert into test_table (name) values (%s)"
+        args = ["name2"]
+        #请传入刚才获取的db连接db_connection变量
+        lastrowid = db_pool.insert(db_connection, sql, ['g3'])   #插入成功则返回主键id
+        #请显式的提交事务  不要开启auto_commit
+        db_pool.commit(db_connection)
+
+        #update语句
+        sql = "update test_table set name = %s where id = %s"
+        args = ['name_333', 66]
+        #请传入刚才获取的db连接db_connection变量
+        db_pool.execute(db_connection, sql, args)
+        #请显式的提交事务  不要开启auto_commit
+        db_pool.commit(db_connection)
          
          
 

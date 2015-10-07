@@ -2,11 +2,33 @@
 '''
     使用DBUtils为MySQLDB客户端的连接池二次封装 (线程安全的)
 
-    依赖config当中的配置文件
+    依赖config default.py当中的配置文件
+        'db':{
+            'user' : {
+                        'db_type' : 'mysql',
+                        'maxconnections' : 30,  #允许的最大连接数,
+                        'user' : 'test_user',
+                        'passwd' : 's5IQABSd8G4=',
+                        'host' : '127.0.0.1',
+                        'port' : 3306,
+                        'charset' : 'utf8',   #不指定的话,默认utf8
+                        'database_name' : 'test_db_nmae' #数据库的名字
+                    },
+            'goods' : {
+                        'db_type' : 'mysql',
+                        'maxconnections' : 30,  #允许的最大连接数,
+                        'user' : 'test_user_2',
+                        'passwd' : 's5IQABSd8G4=',
+                        'host' : '127.0.0.1',
+                        'port' : 3306,
+                        'charset' : 'utf8',   #不指定的话,默认utf8
+                        'database_name' : 'test_db_name2', #数据库的名字
+                    },
+        },
 
     用法:
         from dbs.mysql import Mysql
-        db_pool = Mysql.get_instance('db_flag_user')    #这里的字符串来自于config文件
+        db_pool = Mysql.get_instance('goods')    #这里的goods字符串来自于上面的配置前面可key
         #从连接池中获取一个可用的连接
         db_connection = db_pool.get_connection()
 
