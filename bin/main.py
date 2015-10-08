@@ -36,7 +36,7 @@ def init_log(service_name):
     import log_helper
     logPath = GLOBAL_CONFIG.get('flask').get(service_name).get('logPath')
     logLevel = GLOBAL_CONFIG.get('flask').get(service_name).get('logLevel')
-    handler = log_helper.addTimedRotatingFileHandler(logPath, service_name, logLevel = logLevel)
+    handler = log_helper.addTimedRotatingFileHandler(logPath,logLevel = logLevel)
     return handler
 
 
