@@ -85,6 +85,8 @@ GLOBAL_CONFIG = {
 }
 TEST_VAR = 'guozhiwei_1'
 
+LOG_PATH = './flask-d.log'
+
 
 
 
