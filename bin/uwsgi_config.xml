@@ -4,6 +4,7 @@
      <callable>app</callable>
      <socket>127.0.0.1:7777</socket>       #监听端口
      <master/>
+     <threads>100</threads> 
      <processes>2</processes> 
      <memory-report/>
 </uwsgi>
