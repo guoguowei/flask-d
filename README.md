@@ -2,7 +2,7 @@
     [github]:https://github.com/guoguowei/flask-d/
 	flask框架的二次封装,更加方便的添加接口,能启动多个服务,并提供常用的组件
 	
-##启动
+##原生方式启动
 	cd bin/
 	python main.py api_web_0 start
 	
@@ -33,6 +33,11 @@
 
         },
     },
+    
+    
+##uwsgi方式启动
+	bin目录中添加2个与uwsgi相关的文件main_uwsgi.py和uwsgi_config.xml
+	启动方式请参考http://hiroguo.me/?cat=42
     
 
 ##目录结构
